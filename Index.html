@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Course Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .video-container {
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .watermark {
+            position: absolute;
+            top: 25%;
+            left: 20%;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <!-- PASSWORD PROMPT BOX -->
+    <div id="authBox" class="bg-slate-800 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+            <div class="inline-flex bg-indigo-600/20 text-indigo-400 p-3 rounded-xl border border-indigo-500/30">
+                <i class="fa-solid fa-lock text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold tracking-tight">Protected Course Access</h2>
+            <p class="text-xs text-slate-400">Enter your access password provided by admin</p>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs text-slate-300 font-medium mb-1">Access Password</label>
+                <input type="password" id="passInput" placeholder="Enter password" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+            </div>
+            <button onclick="checkPassword()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm py-2.5 rounded-lg font-medium transition shadow-lg shadow-indigo-600/20">
+                Unlock Course Video
+            </button>
+            <p id="errorMsg" class="text-center text-xs text-red-400 hidden">Incorrect password! Please try again.</p>
+        </div>
+    </div>
+
+    <!-- SECURE VIDEO PLAYER CONTAINER (Hidden until correct password) -->
+    <div id="videoContainer" class="hidden max-w-4xl w-full space-y-4">
+        <div class="flex justify-between items-center bg-slate-800 border border-slate-700 px-6 py-4 rounded-xl">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-indigo-400"></i>
+                SIEM Cyber Security Course - Secure Stream
+            </h1>
+            <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-medium">
+                Access Verified
+            </span>
+        </div>
+
+        <div class="video-container bg-black rounded-xl overflow-hidden border border-slate-700 relative aspect-video flex items-center justify-center shadow-2xl">
+            <div class="watermark">
+                SECURED ACCESS • DO NOT SHARE
+            </div>
+            <!-- APNE GOOGLE DRIVE KA PREVIEW LINK YAHAN <IFRAME> MEIN DAALEIN -->
+            <iframe src="https://drive.google.com/file/d/1TbI6f8dkCgC_6Ujh67H1WZhRhl1r5QPL/view?usp=sharing" class="w-full h-full border-0" allow="autoplay"></iframe>
+        </div>
+
+        <p class="text-center text-xs text-slate-500">
+            This stream is protected. Direct downloading or sharing the link is strictly restricted.
+        </p>
+    </div>
+
+    <script>
+        function checkPassword() {
+            // Yahan aap apna pasandeeda password set kar sakte hain (Misal ke taur par: "cyber2026")
+            const correctPassword = "cyber2026";
+            const enteredPass = document.getElementById('passInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (enteredPass === correctPassword) {
+                document.getElementById('authBox').classList.add('hidden');
+                document.getElementById('videoContainer').classList.remove('hidden');
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
