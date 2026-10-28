@@ -277,13 +277,14 @@
         <h2>SIEM Cyber Security Portal</h2>
         <p>Aapna password daal kar login karein</p>
       </div>
-      
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="••••••••">
-      </div>
-      <button type="button" class="btn" onclick="handleLogin()">Login Karein</button>
-      <p id="error-msg" class="error-msg" style="color: #ef4444; font-size: 14px; margin-top: 15px; display: none;">Galat password! Dobara koshish karein.</p>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn">Login Karein</button>
+        <p id="error-msg" class="error-msg">Galat password! Dobara koshish karein.</p>
+      </form>
     </div>
 
     <!-- DASHBOARD SECTION -->
@@ -340,8 +341,9 @@
       { id: 18, title: "Module 18: Final Assessment & SOC Operations Review", vimeoId: "YOUR_VIMEO_ID_18" }
     ];
 
-    / Password Check Function
-    function handleLogin() {
+    // Password Check Function
+    function handleLogin(event) {
+      event.preventDefault();
       const inputPass = document.getElementById('password').value;
       
       // Portal Password Set
@@ -353,3 +355,51 @@
         document.getElementById('error-msg').style.display = 'block';
       }
     }
+
+    // Load 18 Videos List in Rows
+    function loadVideoList() {
+      const listContainer = document.getElementById('video-list-container');
+      listContainer.innerHTML = '';
+
+      courseVideos.forEach((video) => {
+        const row = document.createElement('div');
+        row.className = 'video-row';
+        row.innerHTML = `
+          <div class="video-info">
+            <div class="video-number">${video.id}</div>
+            <div class="video-title">${video.title}</div>
+          </div>
+          <button class="play-btn" onclick="playVideo('${video.vimeoId}', '${video.title}')">
+            ▶ Play
+          </button>
+        `;
+        listContainer.appendChild(row);
+      });
+    }
+
+    // Play Video in Overlay Modal
+    function playVideo(vimeoId, title) {
+      document.getElementById('modal-video-title').innerText = title;
+      // Vimeo Private Embed Player Link
+      const playerFrame = document.getElementById('vimeo-player');
+      playerFrame.src = `https://player.vimeo.com/video/${vimeoId}?autoplay=1`;
+      document.getElementById('player-modal').style.display = 'flex';
+    }
+
+    // Close Video Modal
+    function closePlayer() {
+      const playerFrame = document.getElementById('vimeo-player');
+      playerFrame.src = ''; // Stop video playback
+      document.getElementById('player-modal').style.display = 'none';
+    }
+
+    // Basic Anti-Tampering (Right Click Disable)
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+        return false;
+      }
+    };
+  </script>
+</body>
+</html>
