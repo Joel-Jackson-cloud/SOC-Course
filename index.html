@@ -277,14 +277,13 @@
         <h2>SIEM Cyber Security Portal</h2>
         <p>Aapna password daal kar login karein</p>
       </div>
-      <form id="login-form" onsubmit="handleLogin(event)">
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="••••••••" required>
-        </div>
-        <button type="submit" class="btn">Login Karein</button>
-        <p id="error-msg" class="error-msg">Galat password! Dobara koshish karein.</p>
-      </form>
+      
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+      <button type="button" class="btn" onclick="handleLogin()">Login Karein</button>
+      <p id="error-msg" class="error-msg" style="color: #ef4444; font-size: 14px; margin-top: 15px; display: none;">Galat password! Dobara koshish karein.</p>
     </div>
 
     <!-- DASHBOARD SECTION -->
@@ -341,9 +340,8 @@
       { id: 18, title: "Module 18: Final Assessment & SOC Operations Review", vimeoId: "YOUR_VIMEO_ID_18" }
     ];
 
-    // Password Check Function
-    function handleLogin(event) {
-      event.preventDefault();
+    / Password Check Function
+    function handleLogin() {
       const inputPass = document.getElementById('password').value;
       
       // Portal Password Set
@@ -351,4 +349,7 @@
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('dashboard-section').style.display = 'block';
         loadVideoList();
-      } else
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+      }
+    }
